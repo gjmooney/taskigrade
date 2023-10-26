@@ -2,7 +2,9 @@
 
 import { trpc } from "@/app/_trpc/client";
 import SubTaskInput from "@/components/kanban/SubTaskInput";
-import { Task } from "@/lib/validators/taskValidator";
+import { Task } from "@/db/schema";
+
+//import { Task } from "@/lib/validators/taskValidator";
 import { Id } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
 import { useSortable } from "@dnd-kit/sortable";
@@ -110,7 +112,7 @@ const KanbanCard = ({ task, updateTask, deleteTask }: KanbanCardProps) => {
                         createdById: task.createdById,
                         initial: false,
                         status: task.status as string,
-                        totalTime: task.totalTime,
+                        totalTime: task.totalTime ?? 0,
                         parentId: null,
                       });
                     }
@@ -174,7 +176,7 @@ const KanbanCard = ({ task, updateTask, deleteTask }: KanbanCardProps) => {
                     initial: false,
                     status: task.status as string,
                     description: task.description,
-                    totalTime: task.totalTime,
+                    totalTime: task.totalTime ?? 0,
                     parentId: null,
                   });
                 }}

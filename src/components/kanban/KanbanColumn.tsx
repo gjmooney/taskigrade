@@ -1,4 +1,6 @@
-import { Task } from "@/lib/validators/taskValidator";
+import { Task } from "@/db/schema";
+
+//import { Task } from "@/lib/validators/taskValidator";
 import { Column, Id } from "@/types/types";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { useMemo } from "react";

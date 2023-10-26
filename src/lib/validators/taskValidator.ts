@@ -12,4 +12,4 @@ export const TaskValidator = z.object({
   parentId: z.string().nullable(),
 });
 
-export type Task = z.infer<typeof TaskValidator>;
+//export type Task = z.infer<typeof TaskValidator>;

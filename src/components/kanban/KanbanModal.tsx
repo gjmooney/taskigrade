@@ -17,7 +17,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Task } from "@/lib/validators/taskValidator";
+import { Task } from "@/db/schema";
+
+//import { Task } from "@/lib/validators/taskValidator";
 import { Check, ChevronRight, Dot, Flag, Tag } from "lucide-react";
 import { useState } from "react";
 
@@ -200,7 +202,7 @@ const KanbanModal = ({ task: tempRename }: KanbanModalProps) => {
         <div className="flex gap-6">
           <div className="flex flex-col mr-auto">
             <span className="text-sm text-muted-foreground">Time Tracked</span>
-            <Timer taskId={task.id} totalTime={task.totalTime} />
+            <Timer taskId={task.id} totalTime={task.totalTime ?? 0} />
           </div>
 
           <DueDatePicker task={task} />

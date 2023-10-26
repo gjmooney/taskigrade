@@ -2,7 +2,7 @@
 
 import { trpc } from "@/app/_trpc/client";
 import { statusCols } from "@/lib/constants";
-import { Task } from "@/lib/validators/taskValidator";
+//import { Task } from "@/lib/validators/taskValidator";
 import { Id } from "@/types/types";
 import {
   DndContext,
@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import KanbanColumn from "./KanbanColumn";
 import OverlayCard from "./OverlayCard";
+import { Task } from "@/db/schema";
 
 interface KanbanBoardProps {
   userId: string;
@@ -103,6 +104,11 @@ const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
       totalTime: 0,
       createdById: userId,
       parentId: null,
+      createdAt: null,
+      description: null,
+      dueDate: null,
+      priority: null,
+      updatedAt: null,
     };
 
     setTasks([...tasks, newTask]);
