@@ -3,8 +3,6 @@
 import { trpc } from "@/app/_trpc/client";
 import SubTaskInput from "@/components/kanban/SubTaskInput";
 import { Task } from "@/db/schema";
-
-//import { Task } from "@/lib/validators/taskValidator";
 import { Id } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
 import { useSortable } from "@dnd-kit/sortable";

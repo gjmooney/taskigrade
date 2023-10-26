@@ -1,6 +1,4 @@
 import { Task } from "@/db/schema";
-
-//import { Task } from "@/lib/validators/taskValidator";
 import { Column, Id } from "@/types/types";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { useMemo } from "react";
@@ -10,7 +8,6 @@ import KanbanCard from "./KanbanCard";
 import KanbanHeader from "./KanbanHeader";
 
 interface KanbanColumnProps {
-  //title: "to do" | "in progress" | "test" | "complete";
   column: Column;
   tasks: Task[];
   updateTask: (id: Id, content: string) => void;

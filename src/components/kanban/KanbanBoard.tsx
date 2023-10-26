@@ -1,8 +1,8 @@
 "use client";
 
 import { trpc } from "@/app/_trpc/client";
+import { Task } from "@/db/schema";
 import { statusCols } from "@/lib/constants";
-//import { Task } from "@/lib/validators/taskValidator";
 import { Id } from "@/types/types";
 import {
   DndContext,
@@ -20,7 +20,6 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import KanbanColumn from "./KanbanColumn";
 import OverlayCard from "./OverlayCard";
-import { Task } from "@/db/schema";
 
 interface KanbanBoardProps {
   userId: string;

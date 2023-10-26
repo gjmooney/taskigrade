@@ -16,10 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { Task } from "@/db/schema";
-
-//import { Task } from "@/lib/validators/taskValidator";
+import { cn } from "@/lib/utils";
 import { Check, ChevronRight, Dot, Flag, Tag } from "lucide-react";
 import { useState } from "react";
 
