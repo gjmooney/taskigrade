@@ -70,29 +70,109 @@ const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
     },
   });
 
-  useEffect(() => {
-    const arrayIdsOrder = JSON.parse(localStorage.getItem("taskOrder")!);
-
-    if (!arrayIdsOrder && usersTasks?.length) {
+  const updateTaskOrderHelper = () => {
+    if (usersTasks) {
       const idsOrderArray = usersTasks.map((t) => t.id);
-      localStorage.setItem("taskOrder", JSON.stringify(idsOrderArray));
+      updateTaskOrder({ sortOrder: idsOrderArray });
+    }
+  };
+
+  //upsert task
+  const { mutate: saveTask } = trpc.upsertTask.useMutation({
+    onSuccess: () => {
+      console.log("success");
+      utils.getUsersTasks.invalidate();
+    },
+    onError: () => {
+      console.log("error");
+    },
+    onSettled: () => {
+      updateTaskOrderHelper();
+    },
+  });
+
+  const saveHelper = ({
+    id,
+    title,
+    createdById,
+    initial,
+    status,
+    totalTime,
+    parentId,
+  }: Task) => {
+    console.log("saving");
+    saveTask({
+      id,
+      title,
+      createdById,
+      initial: false,
+      status,
+      totalTime: totalTime ? totalTime : 0,
+      parentId,
+    });
+  };
+
+  useEffect(() => {
+    taskOrder;
+    usersTasks;
+
+    console.log("pre");
+    if (!taskOrder) {
+      console.log("here");
+      setTasks([]);
     }
 
-    let myArray;
-    if (arrayIdsOrder?.length && usersTasks?.length) {
-      myArray = arrayIdsOrder.map((taskId: string) => {
+    let myArray: (Task | undefined)[] = [];
+    let filteredArray: Task[] = [];
+    if (taskOrder && usersTasks) {
+      // temp array since find can return undefined
+      myArray = taskOrder.map((taskId: string) => {
         return usersTasks.find((task) => task.id === taskId);
       });
 
+      // get rid of the undefined's
+      filteredArray = myArray.filter((item) => item !== undefined) as Task[];
+
+      // items that aren't in sort order yet, technically shouldn't happen
       const newItems = usersTasks.filter((task) => {
-        return !arrayIdsOrder.includes(task.id);
+        return !taskOrder.includes(task.id);
       });
 
-      if (newItems?.length) myArray = [...newItems, ...myArray];
+      console.log("newItems", newItems);
+
+      if (newItems?.length) filteredArray = [...newItems, ...filteredArray];
     }
 
-    setTasks(myArray || usersTasks);
-  }, [usersTasks]);
+    setTasks(filteredArray);
+
+    // if (usersTasks) {
+    //   setTasks(usersTasks);
+    // }
+    console.log("post");
+    console.log("tasks", tasks);
+
+    // const arrayIdsOrder = JSON.parse(localStorage.getItem("taskOrder")!);
+
+    // if (!arrayIdsOrder && usersTasks?.length) {
+    //   const idsOrderArray = usersTasks.map((t) => t.id);
+    //   localStorage.setItem("taskOrder", JSON.stringify(idsOrderArray));
+    // }
+
+    // let myArray;
+    // if (arrayIdsOrder?.length && usersTasks?.length) {
+    //   myArray = arrayIdsOrder.map((taskId: string) => {
+    //     return usersTasks.find((task) => task.id === taskId);
+    //   });
+
+    //   const newItems = usersTasks.filter((task) => {
+    //     return !arrayIdsOrder.includes(task.id);
+    //   });
+
+    //   if (newItems?.length) myArray = [...newItems, ...myArray];
+    // }
+
+    // setTasks(myArray || usersTasks);
+  }, [usersTasks, taskOrder]);
 
   const createTask = (columnId: Id) => {
     const newTask: Task = {
@@ -239,6 +319,7 @@ const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
               updateTask={updateTask}
               createTask={createTask}
               deleteTask={deleteTask}
+              saveTask={saveHelper}
             />
           ))}
         </SortableContext>

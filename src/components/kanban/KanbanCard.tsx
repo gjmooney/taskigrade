@@ -26,12 +26,17 @@ interface KanbanCardProps {
   task: Task;
   updateTask: (id: Id, content: string) => void;
   deleteTask: (taskId: string) => void;
+  saveTask: (task: Task) => void;
 }
 
-const KanbanCard = ({ task, updateTask, deleteTask }: KanbanCardProps) => {
+const KanbanCard = ({
+  task,
+  updateTask,
+  deleteTask,
+  saveTask,
+}: KanbanCardProps) => {
   const [isAddingSubTask, setIsAddingSubTask] = useState(false);
   const { user } = useUser();
-  console.log("user.id", user?.id);
 
   const { data: subTasks } = trpc.getSubTasks.useQuery({ taskId: task.id });
   const utils = trpc.useContext();
@@ -59,17 +64,6 @@ const KanbanCard = ({ task, updateTask, deleteTask }: KanbanCardProps) => {
   const toggleEditMode = () => {
     setIsAddingSubTask((prev) => !prev);
   };
-
-  //upsert task
-  const { mutate: saveTask } = trpc.upsertTask.useMutation({
-    onSuccess: () => {
-      console.log("success");
-      utils.getUsersTasks.invalidate();
-    },
-    onError: () => {
-      console.log("error");
-    },
-  });
 
   if (isDragging) {
     return (
@@ -104,15 +98,7 @@ const KanbanCard = ({ task, updateTask, deleteTask }: KanbanCardProps) => {
                   onClick={(e) => e.stopPropagation()}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      saveTask({
-                        id: task.id as string,
-                        title: task.title,
-                        createdById: task.createdById,
-                        initial: false,
-                        status: task.status as string,
-                        totalTime: task.totalTime ?? 0,
-                        parentId: null,
-                      });
+                      saveTask(task);
                     }
                   }}
                   onChange={(e) => updateTask(task.id, e.target.value)}
@@ -167,16 +153,7 @@ const KanbanCard = ({ task, updateTask, deleteTask }: KanbanCardProps) => {
                 }
                 onClick={(e) => {
                   e.stopPropagation();
-                  saveTask({
-                    id: task.id as string,
-                    title: task.title,
-                    createdById: task.createdById,
-                    initial: false,
-                    status: task.status as string,
-                    description: task.description,
-                    totalTime: task.totalTime ?? 0,
-                    parentId: null,
-                  });
+                  saveTask(task);
                 }}
               >
                 Save

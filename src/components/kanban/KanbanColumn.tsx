@@ -13,6 +13,7 @@ interface KanbanColumnProps {
   updateTask: (id: Id, content: string) => void;
   createTask: (columnId: Id) => void;
   deleteTask: (taskId: string) => void;
+  saveTask: (task: Task) => void;
 }
 
 const KanbanColumn = ({
@@ -21,6 +22,7 @@ const KanbanColumn = ({
   updateTask,
   createTask,
   deleteTask,
+  saveTask,
 }: KanbanColumnProps) => {
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
@@ -66,6 +68,7 @@ const KanbanColumn = ({
               task={task}
               updateTask={updateTask}
               deleteTask={deleteTask}
+              saveTask={saveTask}
             />
           ))}
         </SortableContext>
