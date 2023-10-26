@@ -49,8 +49,7 @@ const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
     placeholderData: [],
   });
 
-  const { data: taskOrder, refetch: refetchTaskOrder } =
-    trpc.getTaskOrder.useQuery();
+  const { data: taskOrder } = trpc.getTaskOrder.useQuery();
 
   const { mutate: updateStatus } = trpc.updateStatus.useMutation({
     onSuccess: () => {
@@ -66,13 +65,16 @@ const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
 
   const { mutate: updateTaskOrder } = trpc.updateTaskOrder.useMutation({
     onSuccess: () => {
+      console.log("udpate order");
       utils.getTaskOrder.invalidate();
     },
   });
 
   const updateTaskOrderHelper = () => {
-    if (usersTasks) {
-      const idsOrderArray = usersTasks.map((t) => t.id);
+    if (tasks) {
+      console.log("happen");
+      const idsOrderArray = tasks.map((t) => t.id);
+      console.log("idsOrderArray", idsOrderArray);
       updateTaskOrder({ sortOrder: idsOrderArray });
     }
   };
@@ -284,7 +286,8 @@ const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
 
     //TODO: maybe save this as a user field
     const idsOrderArray = tasks.map((task) => task.id);
-    localStorage.setItem("taskOrder", JSON.stringify(idsOrderArray));
+    //localStorage.setItem("taskOrder", JSON.stringify(idsOrderArray));
+    updateTaskOrderHelper();
 
     updateStatus({
       taskId: tasks[activeIndex].id as string,
