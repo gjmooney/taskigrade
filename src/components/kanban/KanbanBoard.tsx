@@ -91,7 +91,7 @@ const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
       if (newItems?.length) myArray = [...newItems, ...myArray];
     }
 
-    setTasks(myArray || (usersTasks as Task[]));
+    setTasks(myArray || usersTasks);
   }, [usersTasks]);
 
   const createTask = (columnId: Id) => {

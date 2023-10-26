@@ -1,10 +1,10 @@
 import { db } from "@/db/db";
 import { tasks, users } from "@/db/schema";
-import { Task, TaskValidator } from "@/lib/validators/taskValidator";
+import { TaskValidator } from "@/lib/validators/taskValidator";
 //import { Task } from "@/types/types";
 import { auth } from "@clerk/nextjs";
 import { TRPCError } from "@trpc/server";
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { z } from "zod";
 import { privateProcedure, publicProcedure, router } from "./trpc";
 
@@ -32,7 +32,7 @@ export const appRouter = router({
       where: and(eq(tasks.createdById, ctx.clerkId), isNull(tasks.parentId)),
     });
 
-    return usersTasks as Task[];
+    return usersTasks;
   }),
   getSubTasks: privateProcedure
     .input(z.object({ taskId: z.string() }))

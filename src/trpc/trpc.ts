@@ -4,12 +4,15 @@ import { auth } from "@clerk/nextjs";
 import { TRPCError, initTRPC } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import SuperJSON from "superjson";
 
 /**
  * Initialization of tRPC backend
  * Should be done only once per backend!
  */
-const t = initTRPC.create();
+const t = initTRPC.create({
+  transformer: SuperJSON,
+});
 
 const isAuth = t.middleware(async ({ next }) => {
   const { userId: clerkId } = auth();
