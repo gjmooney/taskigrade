@@ -18,7 +18,7 @@ const SubTaskInput = ({
 }: SubTaskInputProps) => {
   const [text, setText] = useState("");
 
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const { mutate: upsertTask } = trpc.upsertTask.useMutation({
     onSuccess: () => {

@@ -29,7 +29,7 @@ interface KanbanBoardProps {
 const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const columnsId = statusCols.map((col) => col.id);
 

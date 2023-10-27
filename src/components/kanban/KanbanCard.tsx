@@ -39,7 +39,7 @@ const KanbanCard = ({
   const { user } = useUser();
 
   const { data: subTasks } = trpc.getSubTasks.useQuery({ taskId: task.id });
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const {
     setNodeRef,

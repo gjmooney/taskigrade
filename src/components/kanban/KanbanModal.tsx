@@ -58,7 +58,7 @@ const KanbanModal = ({ task: tempRename, subTasks }: KanbanModalProps) => {
   const [displayStatus, setDisplayStatus] = useState(task.status);
   const [displayPriority, setDisplayPriority] = useState(task.priority);
 
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const { mutate: updateStatus } = trpc.updateStatus.useMutation({
     onSuccess: () => {
