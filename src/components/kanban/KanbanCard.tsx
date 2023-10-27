@@ -193,7 +193,7 @@ const KanbanCard = ({
         className="w-full max-w-5xl h-fit"
         onBlur={() => utils.getUsersTasks.invalidate()}
       >
-        <KanbanModal task={task} />
+        <KanbanModal task={task} subTasks={subTasks} />
       </DialogContent>
     </Dialog>
   );

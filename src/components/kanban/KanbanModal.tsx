@@ -32,13 +32,13 @@ const priorities = ["urgent", "high", "normal", "low"];
 
 interface KanbanModalProps {
   task: Task;
+  subTasks?: Task[];
 }
 
-const KanbanModal = ({ task: tempRename }: KanbanModalProps) => {
+const KanbanModal = ({ task: tempRename, subTasks }: KanbanModalProps) => {
   const task = {
     ...tempRename,
     tags: ["tag1", "tag2", "tag3"],
-    subtasks: ["subtask1", "subtask2", "subtask3"],
   };
 
   const statusDisplayMap: Record<string, string> = {
@@ -245,10 +245,16 @@ const KanbanModal = ({ task: tempRename }: KanbanModalProps) => {
       <div>
         <Separator />
         <ul className="flex flex-col gap-4 pt-2">
-          {task.subtasks.map((task) => (
-            <li key={task} className="flex items-center mr-4">
+          {subTasks?.map((task) => (
+            <li key={task.id} className="flex items-center mr-4">
               <Dot className="w-4 h-4" />
-              {task}
+              <TaskText
+                taskId={task.id}
+                taskText={task.title}
+                onKeyDown={titleHelper}
+                classNameInput=""
+                classNameText="text-sm text-foreground/80 cursor-pointer"
+              />
             </li>
           ))}
         </ul>
