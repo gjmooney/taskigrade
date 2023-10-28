@@ -82,7 +82,7 @@ const OldKanbanCard = ({
 
   return (
     // <Dialog>
-    //   <DialogTrigger asChild>
+    // <DialogTrigger asChild>
     <Card
       ref={setNodeRef}
       style={style}
@@ -192,7 +192,6 @@ const OldKanbanCard = ({
       </Link>
     </Card>
     // </DialogTrigger>
-
     // {/* <DialogContent
     //   className="w-full max-w-5xl h-fit"
     //   onBlur={() => utils.getUsersTasks.invalidate()}
