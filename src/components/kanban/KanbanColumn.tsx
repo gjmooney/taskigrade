@@ -1,7 +1,8 @@
 import { Task } from "@/db/schema";
 import { Column, Id } from "@/types/types";
+import { useDndMonitor } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
 import KanbanCard from "./KanbanCard";
@@ -16,7 +17,7 @@ interface KanbanColumnProps {
   saveTask: (task: Task) => void;
 }
 
-const KanbanColumn = ({
+const OldKanbanColumn = ({
   column,
   tasks,
   updateTask,
@@ -28,6 +29,7 @@ const KanbanColumn = ({
     return tasks.map((task) => task.id);
   }, [tasks]);
 
+ 
   const {
     setNodeRef,
     attributes,
@@ -76,5 +78,5 @@ const KanbanColumn = ({
     </Card>
   );
 };
-
+const KanbanColumn = memo(OldKanbanColumn);
 export default KanbanColumn;

@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { createId } from "@paralleldrive/cuid2";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import KanbanColumn from "./KanbanColumn";
 import OverlayCard from "./OverlayCard";
@@ -111,10 +111,10 @@ const KanbanBoard = ({ userAvatar, userId }: KanbanBoardProps) => {
     });
   };
 
-  useEffect(() => {
-    if (!taskOrder) {
-      setTasks([]);
-    }
+  useMemo(() => {
+    // if (!taskOrder) {
+    //   setTasks([]);
+    // }
 
     let myArray: (Task | undefined)[] = [];
     let filteredArray: Task[] = [];
