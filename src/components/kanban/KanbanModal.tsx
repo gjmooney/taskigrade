@@ -123,8 +123,9 @@ const KanbanModal = ({ task: tempRename, subTasks }: KanbanModalProps) => {
           <div className="flex gap-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="gap-2">
-                  {statusDisplayMap[displayStatus]}{" "}
+                <Button className="gap-2 px-2">
+                  {statusDisplayMap[displayStatus]}
+                  <Separator orientation="vertical" />
                   <ChevronDown className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -175,47 +176,51 @@ const KanbanModal = ({ task: tempRename, subTasks }: KanbanModalProps) => {
         </div>
 
         {/* right side */}
-        <div className="flex flex-col justify-between gap-1">
-          <DropdownMenu>
-            {task.priority ? (
-              <span className="capitalize text-xs text-muted-foreground self-center mr-2">
-                {displayPriority}
-              </span>
-            ) : null}
-            <DropdownMenuTrigger asChild>
-              <Button variant={"outline"} size={"icon"}>
-                <Flag
-                  className={cn(
-                    "w-4 h-4",
-                    displayPriority ? priorityColorMap[displayPriority] : ""
-                  )}
-                />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {priorities.map((priority) => (
-                <DropdownMenuItem
-                  key={priority}
-                  className="flex w-full items-center justify-between"
-                  onClick={() => {
-                    updatePriority({ taskId: task.id, priority });
-                  }}
-                >
-                  <span className="capitalize">{priority}</span>
-                  {task.priority === priority ? (
-                    <Check className="w-4 h-4" />
-                  ) : null}
+        <div className="flex flex-col justify-between items-end gap-1">
+          <div className="flex">
+            <DropdownMenu>
+              {task.priority ? (
+                <span className="capitalize text-xs text-foreground/80 self-center mr-2">
+                  {displayPriority}
+                </span>
+              ) : null}
+              <DropdownMenuTrigger asChild>
+                <Button variant={"outline"} size={"icon"}>
+                  <Flag
+                    className={cn(
+                      "w-4 h-4",
+                      displayPriority ? priorityColorMap[displayPriority] : ""
+                    )}
+                  />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {priorities.map((priority) => (
+                  <DropdownMenuItem
+                    key={priority}
+                    className="flex w-full items-center justify-between"
+                    onClick={() => {
+                      updatePriority({ taskId: task.id, priority });
+                    }}
+                  >
+                    <span className="capitalize">{priority}</span>
+                    {task.priority === priority ? (
+                      <Check className="w-4 h-4" />
+                    ) : null}
+                  </DropdownMenuItem>
+                ))}
+
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="flex w-full items-center justify-between">
+                  Clear
                 </DropdownMenuItem>
-              ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex w-full items-center justify-between">
-                Clear
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <DueDatePicker task={task} />
+          <div className="flex">
+            <DueDatePicker task={task} />
+          </div>
 
           <Button variant={"outline"} size={"icon"}>
             <Tag className="w-4 h-4" />

@@ -8,10 +8,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Task } from "@/lib/validators/taskValidator";
+import { Task } from "@/db/schema";
+//import { Task } from "@/lib/validators/taskValidator";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface DueDatePickerProps {
   //taskId: string;
@@ -44,8 +45,8 @@ const DueDatePicker = ({ task }: DueDatePickerProps) => {
   return (
     <>
       {date ? (
-        <div className="flex flex-col">
-          <span className="text-sm text-muted-foreground">Due Date</span>
+        <div className="flex flex-col mr-2">
+          <span className="text-xs text-foreground/80">Due Date</span>
           <span className="text-xs text-right">{format(date, "MMM d")}</span>
         </div>
       ) : null}
