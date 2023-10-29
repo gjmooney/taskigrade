@@ -116,7 +116,7 @@ const KanbanModal = ({ task: tempRename, subTasks }: KanbanModalProps) => {
 
   return (
     <div className="flex flex-col">
-      <DialogHeader className="space-y-2 mt-4 ">
+      <div className="space-y-2 mt-4 ">
         {/** header first row */}
         <div className="flex gap-1">
           <DropdownMenu>
@@ -221,7 +221,7 @@ const KanbanModal = ({ task: tempRename, subTasks }: KanbanModalProps) => {
           </Button>
         </div>
         <Separator />
-      </DialogHeader>
+      </div>
 
       {/* Main section */}
       <div className="flex flex-col gap-6 py-10 ">

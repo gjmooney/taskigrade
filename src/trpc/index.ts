@@ -34,6 +34,15 @@ export const appRouter = router({
 
     return usersTasks;
   }),
+  getTaskById: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const task = await db.query.tasks.findFirst({
+        where: eq(tasks.id, input.id),
+      });
+
+      return task;
+    }),
   getSubTasks: privateProcedure
     .input(z.object({ taskId: z.string() }))
     .query(async ({ input, ctx }) => {
