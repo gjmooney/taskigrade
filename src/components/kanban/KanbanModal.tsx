@@ -114,111 +114,115 @@ const KanbanModal = ({ task: tempRename, subTasks }: KanbanModalProps) => {
   };
 
   return (
-    <div className="flex flex-col space-y-2 mt-4">
-      {/** header first row */}
-      <div className="flex gap-1">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="gap-2">
-              {statusDisplayMap[displayStatus]}{" "}
-              <ChevronDown className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {statuses.map((status) => (
-              <DropdownMenuItem
-                key={status.status}
-                className="flex w-full items-center justify-between"
-                onClick={() =>
-                  updateStatus({ taskId: task.id, status: status.status })
-                }
-              >
-                <span className="capitalize">
-                  {status.display ? status.display : status.status}
-                </span>
-                {displayStatus === status.status ? (
-                  <Check className="w-4 h-4" />
-                ) : null}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        {/* <Button size={"icon"} className="rounded-l-none">
+    <div className="flex flex-col space-y-4 mt-4">
+      {/* header */}
+      <div className="flex justify-between  gap-6">
+        {/* left side */}
+        <div className="flex flex-col justify-between gap-1">
+          {/* first */}
+          <div className="flex gap-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="gap-2">
+                  {statusDisplayMap[displayStatus]}{" "}
+                  <ChevronDown className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {statuses.map((status) => (
+                  <DropdownMenuItem
+                    key={status.status}
+                    className="flex w-full items-center justify-between"
+                    onClick={() =>
+                      updateStatus({ taskId: task.id, status: status.status })
+                    }
+                  >
+                    <span className="capitalize">
+                      {status.display ? status.display : status.status}
+                    </span>
+                    {displayStatus === status.status ? (
+                      <Check className="w-4 h-4" />
+                    ) : null}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {/* <Button size={"icon"} className="rounded-l-none">
           <ChevronRight className="w-4 h-4" />
         </Button>
         <Button variant={"outline"} size={"icon"}>
           <Check className="w-4 h-4" />
         </Button> */}
 
-        <Avatar className="ml-5 mr-auto">
-          <AvatarImage src={task.createdById} />
-          <AvatarFallback>F</AvatarFallback>
-        </Avatar>
-
-        <DropdownMenu>
-          {task.priority ? (
-            <span className="capitalize text-xs text-muted-foreground self-center mr-2">
-              {displayPriority}
-            </span>
-          ) : null}
-          <DropdownMenuTrigger asChild>
-            <Button variant={"outline"} size={"icon"}>
-              <Flag
-                className={cn(
-                  "w-4 h-4",
-                  displayPriority ? priorityColorMap[displayPriority] : ""
-                )}
-              />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {priorities.map((priority) => (
-              <DropdownMenuItem
-                key={priority}
-                className="flex w-full items-center justify-between"
-                onClick={() => {
-                  updatePriority({ taskId: task.id, priority });
-                }}
-              >
-                <span className="capitalize">{priority}</span>
-                {task.priority === priority ? (
-                  <Check className="w-4 h-4" />
-                ) : null}
-              </DropdownMenuItem>
+            <Avatar className="ml-5 mr-auto">
+              <AvatarImage src={task.createdById} />
+              <AvatarFallback>F</AvatarFallback>
+            </Avatar>
+          </div>
+          {/* second */}
+          <div className="flex flex-col mr-auto">
+            <span className="text-sm text-muted-foreground">Time Tracked</span>
+            <Timer taskId={task.id} totalTime={task.totalTime ?? 0} />
+          </div>
+          {/* third */}
+          <div>
+            {task.tags.map((tag) => (
+              <Badge key={tag} className=" mr-1 rounded-l-none">
+                {tag}
+              </Badge>
             ))}
-
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="flex w-full items-center justify-between">
-              Clear
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-
-      {/** header second row */}
-      <div className="flex gap-6">
-        <div className="flex flex-col mr-auto">
-          <span className="text-sm text-muted-foreground">Time Tracked</span>
-          <Timer taskId={task.id} totalTime={task.totalTime ?? 0} />
+          </div>
         </div>
 
-        <DueDatePicker task={task} />
-      </div>
+        {/* right side */}
+        <div className="flex flex-col justify-between gap-1">
+          <DropdownMenu>
+            {task.priority ? (
+              <span className="capitalize text-xs text-muted-foreground self-center mr-2">
+                {displayPriority}
+              </span>
+            ) : null}
+            <DropdownMenuTrigger asChild>
+              <Button variant={"outline"} size={"icon"}>
+                <Flag
+                  className={cn(
+                    "w-4 h-4",
+                    displayPriority ? priorityColorMap[displayPriority] : ""
+                  )}
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {priorities.map((priority) => (
+                <DropdownMenuItem
+                  key={priority}
+                  className="flex w-full items-center justify-between"
+                  onClick={() => {
+                    updatePriority({ taskId: task.id, priority });
+                  }}
+                >
+                  <span className="capitalize">{priority}</span>
+                  {task.priority === priority ? (
+                    <Check className="w-4 h-4" />
+                  ) : null}
+                </DropdownMenuItem>
+              ))}
 
-      {/** header third row */}
-      <div className="flex justify-between">
-        <div>
-          {task.tags.map((tag) => (
-            <Badge key={tag} className=" mr-1 rounded-l-none">
-              {tag}
-            </Badge>
-          ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="flex w-full items-center justify-between">
+                Clear
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DueDatePicker task={task} />
+
+          <Button variant={"outline"} size={"icon"}>
+            <Tag className="w-4 h-4" />
+          </Button>
         </div>
-
-        <Button variant={"outline"} size={"icon"}>
-          <Tag className="w-4 h-4" />
-        </Button>
       </div>
+
       <Separator />
 
       {/* Main section */}
