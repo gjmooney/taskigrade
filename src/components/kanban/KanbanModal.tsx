@@ -7,7 +7,6 @@ import Timer from "@/components/taskModal/Timer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { DialogHeader } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,7 +17,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Task } from "@/db/schema";
 import { cn } from "@/lib/utils";
-import { Check, ChevronRight, Dot, Flag, Tag } from "lucide-react";
+import { Check, ChevronDown, Dot, Flag, Tag } from "lucide-react";
 import { useState } from "react";
 
 const statuses = [
@@ -115,113 +114,112 @@ const KanbanModal = ({ task: tempRename, subTasks }: KanbanModalProps) => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="space-y-2 mt-4 ">
-        {/** header first row */}
-        <div className="flex gap-1">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="rounded-r-none">
-                {statusDisplayMap[displayStatus]}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {statuses.map((status) => (
-                <DropdownMenuItem
-                  key={status.status}
-                  className="flex w-full items-center justify-between"
-                  onClick={() =>
-                    updateStatus({ taskId: task.id, status: status.status })
-                  }
-                >
-                  <span className="capitalize">
-                    {status.display ? status.display : status.status}
-                  </span>
-                  {displayStatus === status.status ? (
-                    <Check className="w-4 h-4" />
-                  ) : null}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Button size={"icon"} className="rounded-l-none">
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-          <Button variant={"outline"} size={"icon"}>
-            <Check className="w-4 h-4" />
-          </Button>
-
-          <Avatar className="ml-6 mr-auto">
-            <AvatarImage src={task.createdById} />
-            <AvatarFallback>F</AvatarFallback>
-          </Avatar>
-
-          <DropdownMenu>
-            {task.priority ? (
-              <span className="capitalize text-xs text-muted-foreground self-center mr-2">
-                {displayPriority}
-              </span>
-            ) : null}
-            <DropdownMenuTrigger asChild>
-              <Button variant={"outline"} size={"icon"}>
-                <Flag
-                  className={cn(
-                    "w-4 h-4",
-                    displayPriority ? priorityColorMap[displayPriority] : ""
-                  )}
-                />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {priorities.map((priority) => (
-                <DropdownMenuItem
-                  key={priority}
-                  className="flex w-full items-center justify-between"
-                  onClick={() => {
-                    updatePriority({ taskId: task.id, priority });
-                  }}
-                >
-                  <span className="capitalize">{priority}</span>
-                  {task.priority === priority ? (
-                    <Check className="w-4 h-4" />
-                  ) : null}
-                </DropdownMenuItem>
-              ))}
-
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex w-full items-center justify-between">
-                Clear
+    <div className="flex flex-col space-y-2 mt-4">
+      {/** header first row */}
+      <div className="flex gap-1">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="gap-2">
+              {statusDisplayMap[displayStatus]}{" "}
+              <ChevronDown className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {statuses.map((status) => (
+              <DropdownMenuItem
+                key={status.status}
+                className="flex w-full items-center justify-between"
+                onClick={() =>
+                  updateStatus({ taskId: task.id, status: status.status })
+                }
+              >
+                <span className="capitalize">
+                  {status.display ? status.display : status.status}
+                </span>
+                {displayStatus === status.status ? (
+                  <Check className="w-4 h-4" />
+                ) : null}
               </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        {/** header second row */}
-        <div className="flex gap-6">
-          <div className="flex flex-col mr-auto">
-            <span className="text-sm text-muted-foreground">Time Tracked</span>
-            <Timer taskId={task.id} totalTime={task.totalTime ?? 0} />
-          </div>
-
-          <DueDatePicker task={task} />
-        </div>
-
-        {/** header third row */}
-        <div className="flex justify-between">
-          <div>
-            {task.tags.map((tag) => (
-              <Badge key={tag} className=" mr-1 rounded-l-none">
-                {tag}
-              </Badge>
             ))}
-          </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        {/* <Button size={"icon"} className="rounded-l-none">
+          <ChevronRight className="w-4 h-4" />
+        </Button>
+        <Button variant={"outline"} size={"icon"}>
+          <Check className="w-4 h-4" />
+        </Button> */}
 
-          <Button variant={"outline"} size={"icon"}>
-            <Tag className="w-4 h-4" />
-          </Button>
-        </div>
-        <Separator />
+        <Avatar className="ml-5 mr-auto">
+          <AvatarImage src={task.createdById} />
+          <AvatarFallback>F</AvatarFallback>
+        </Avatar>
+
+        <DropdownMenu>
+          {task.priority ? (
+            <span className="capitalize text-xs text-muted-foreground self-center mr-2">
+              {displayPriority}
+            </span>
+          ) : null}
+          <DropdownMenuTrigger asChild>
+            <Button variant={"outline"} size={"icon"}>
+              <Flag
+                className={cn(
+                  "w-4 h-4",
+                  displayPriority ? priorityColorMap[displayPriority] : ""
+                )}
+              />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {priorities.map((priority) => (
+              <DropdownMenuItem
+                key={priority}
+                className="flex w-full items-center justify-between"
+                onClick={() => {
+                  updatePriority({ taskId: task.id, priority });
+                }}
+              >
+                <span className="capitalize">{priority}</span>
+                {task.priority === priority ? (
+                  <Check className="w-4 h-4" />
+                ) : null}
+              </DropdownMenuItem>
+            ))}
+
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="flex w-full items-center justify-between">
+              Clear
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
+
+      {/** header second row */}
+      <div className="flex gap-6">
+        <div className="flex flex-col mr-auto">
+          <span className="text-sm text-muted-foreground">Time Tracked</span>
+          <Timer taskId={task.id} totalTime={task.totalTime ?? 0} />
+        </div>
+
+        <DueDatePicker task={task} />
+      </div>
+
+      {/** header third row */}
+      <div className="flex justify-between">
+        <div>
+          {task.tags.map((tag) => (
+            <Badge key={tag} className=" mr-1 rounded-l-none">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+
+        <Button variant={"outline"} size={"icon"}>
+          <Tag className="w-4 h-4" />
+        </Button>
+      </div>
+      <Separator />
 
       {/* Main section */}
       <div className="flex flex-col gap-6 py-10 ">

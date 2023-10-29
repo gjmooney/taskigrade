@@ -34,7 +34,7 @@ export default function RootLayout({
             >
               <Navbar />
               {children}
-              {modal}
+              {/* {modal} */}
             </ThemeProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </body>
